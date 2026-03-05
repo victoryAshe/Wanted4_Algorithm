@@ -36,6 +36,30 @@ class Node
 {
 public:
 	Node(const Bounds& bounds, int depth = 0);
+	~Node();
+
+	void Insert(Node* node);
+
+	// 질의 (Querty:물어보기)
+	// bounds: 영역 test 요청 값.
+	// possibleNodes: 전달된 영역을 관리할 가능성이 있는 node의 목록.
+	void Query(
+		const Bounds& bounds,
+		std::vector <Node>& possibleNodes
+	);
+
+	void Clear();
+
+	// Getter.
+	inline const Bounds& GetBounds() const { return bounds; }
+
+	inline const std::vector<Node*> Points() const { return points; }
+
+	// 자식 노드.
+	inline Node* TopLeft() const{ return  topLeft;  }
+	inline Node* TopRight() const{ return topRight; }
+	inline Node* BottomLeft() const { return  bottomLeft; }
+	inline Node* BottomRight() const { return bottomRight; }
 
 private:
 	// 4분할 함수.
