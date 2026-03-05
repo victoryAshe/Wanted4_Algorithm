@@ -5,7 +5,7 @@ bool Bounds::Intersects(const Bounds& other) const
 	// 겹치지 않은 경우 먼저 판단.
 
 	// 다른 영역이 오른쪽으로 벗어난 경우.
-	if (other.x < MaxX())
+	if (other.x > MaxX())
 	{
 		return false;
 	}
@@ -17,7 +17,7 @@ bool Bounds::Intersects(const Bounds& other) const
 	}
 
 	// 다른 영역이 아래로 벗어난 경우.
-	if (other.y < MaxY())
+	if (other.y > MaxY())
 	{
 		return false;
 	}

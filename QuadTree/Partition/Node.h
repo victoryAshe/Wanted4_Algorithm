@@ -24,7 +24,7 @@ enum class NodeIndex
 	BottomRight,
 
 	// 경계선에 걸침.
-	Stradding,
+	Straddling,
 
 	// 영역을 벗어남.
 	OutOfArea
@@ -45,7 +45,7 @@ public:
 	// possibleNodes: 전달된 영역을 관리할 가능성이 있는 node의 목록.
 	void Query(
 		const Bounds& bounds,
-		std::vector <Node>& possibleNodes
+		std::vector <Node*>& possibleNodes
 	);
 
 	void Clear();
@@ -53,7 +53,7 @@ public:
 	// Getter.
 	inline const Bounds& GetBounds() const { return bounds; }
 
-	inline const std::vector<Node*> Points() const { return points; }
+	inline const std::vector<Node*>& Points() const { return points; }
 
 	// 자식 노드.
 	inline Node* TopLeft() const{ return  topLeft;  }

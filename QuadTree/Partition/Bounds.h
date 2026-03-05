@@ -15,8 +15,8 @@ public:
 	inline int Width() const { return width; }
 	inline int Height() const { return height; }
 
-	int MaxX() const { return x + width; }
-	int MaxY() const { return y + height; }
+	inline int MaxX() const { return x + width; }
+	inline int MaxY() const { return y + height; }
 
 	// 겹침 판정 함수
 	// AABB.

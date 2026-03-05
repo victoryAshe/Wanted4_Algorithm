@@ -23,11 +23,10 @@ void Node::Insert(Node* node)
 	NodeIndex result = TestRegion(node->GetBounds());
 
 	// 두 개 이상 영역에 겹치는 경우 현재 node에 추가.
-	if (result == NodeIndex::Stradding)
+	if (result == NodeIndex::Straddling)
 	{
 		points.emplace_back(node);
 	}
-
 	// 영역이 겹치지 않은 경우
 	// 경우 1. 1개의 영역에만 포함.
 	else if (result != NodeIndex::OutOfArea)
@@ -64,7 +63,7 @@ void Node::Insert(Node* node)
 
 }
 
-void Node::Query(const Bounds& bounds, std::vector<Node>& possibleNodes)
+void Node::Query(const Bounds& bounds, std::vector<Node*>& possibleNodes)
 {
 	// 현재 노드를 추가하고 이후 과정 진행.
 	possibleNodes.emplace_back(this);
@@ -125,6 +124,7 @@ bool Node::SubDivide()
 {
 	// 최대 깊이에 도달했는지 확인.
 	// @InComplete: 임시로 하드코딩 값 설정.
+	// TODO: depth를 QuadTree에서 받기.
 	// 이미 최대로 분할됨.
 	if (depth == 5)
 	{
@@ -147,11 +147,11 @@ bool Node::SubDivide()
 		);
 
 		topRight = new Node(
-			Bounds(x + halfWidth, halfWidth, halfHeight), depth + 1
+			Bounds(x + halfWidth, y, halfWidth, halfHeight), depth + 1
 		);
 		
 		bottomLeft = new Node(
-			Bounds(x, y + halfWidth, halfWidth, halfHeight), depth + 1
+			Bounds(x, y + halfHeight, halfWidth, halfHeight), depth + 1
 		);
 
 		bottomRight = new Node(
@@ -187,7 +187,7 @@ NodeIndex Node::TestRegion(const Bounds& bounds)
 	}
 
 	// 여러 영역과 겹친 경우.
-	return NodeIndex::Stradding;
+	return NodeIndex::Straddling;
 }
 
 std::vector<NodeIndex> Node::GetQuads(const Bounds& bounds)
@@ -218,7 +218,7 @@ std::vector<NodeIndex> Node::GetQuads(const Bounds& bounds)
 		= bounds.MaxY() >= centerY && bounds.Y() < this->bounds.MaxY();
 
 	// 영역 판정.
-	if (top && &left)
+	if (top && left)
 	{
 		quads.emplace_back(NodeIndex::TopLeft);
 	}
